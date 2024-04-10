@@ -64,15 +64,15 @@ def _meta_task_make(meta_task: str, *args, **kwargs) -> MetaTaskBase | FastReset
 
         **kwargs: See corresponding task's docstring for more info.
     """
-    meta_task = meta_task.lower()
+    meta_task = meta_task.lower()# transform the meta_task to lower case
     assert (
-        meta_task in MetaTaskName2Class
+        meta_task in MetaTaskName2Class# mo matter whether the meta_task is upper case or lower case,it could be tested
     ), f"Invalid meta task name provided {meta_task}"
-    if meta_task == "open-ended":
-        if "fast_reset" in kwargs:
-            fast_reset = kwargs.pop("fast_reset")
-            fast_reset_random_teleport_range = kwargs.pop(
-                "fast_reset_random_teleport_range", None
+    if meta_task == "open-ended":# if the meta_task is "open-ended"
+        if "fast_reset" in kwargs:# if "fast_reset" is in kwargs dictionary's keys
+            fast_reset = kwargs.pop("fast_reset")# # remove the "fast_reset" and its value from kwargs, and assign the value to fast_reset
+            fast_reset_random_teleport_range = kwargs.pop(# remove the "fast_reset_random_teleport_range" and its value from kwargs, and assign the value to fast_reset_random_teleport_range
+                "fast_reset_random_teleport_range", None# if "fast_reset_random_teleport_range" is not in kwargs, assign None to fast_reset_random_teleport_range
             )
             if fast_reset is True:
                 return FastResetWrapper(
@@ -426,7 +426,7 @@ assert len(set(P_TASKS_PROMPTS_GUIDANCE.keys())) == len(P_TASKS_PROMPTS_GUIDANCE
 
 # load prompts and guidance for creative tasks
 C_TASKS_PROMPTS_GUIDANCE = OmegaConf.load(_resource_file_path("creative_tasks.yaml"))
-# check no duplicates
+# check no duplicates keys
 assert len(set(C_TASKS_PROMPTS_GUIDANCE.keys())) == len(C_TASKS_PROMPTS_GUIDANCE)
 
 # load prompt and guidance for Playthrough task
@@ -504,10 +504,10 @@ def make(task_id: str, *args, cam_interval: int | float = 15, **kwargs):
     3. "playthrough" or "open-ended" for these two special tasks
     4. one of "harvest", "combat", "techtree", and "survival" to creative meta task
     """
-    if task_id.startswith("creative:"):
-        creative_idx = int(task_id.split(":")[1])
-        assert len(C_TASKS_PROMPTS_GUIDANCE) > creative_idx >= 0
-        info = C_TASKS_PROMPTS_GUIDANCE[task_id]
+    if task_id.startswith("creative:"):# if task_id starts with "creative:"
+        creative_idx = int(task_id.split(":")[1])# get the number after "creative:"
+        assert len(C_TASKS_PROMPTS_GUIDANCE) > creative_idx >= 0# make sure the number is in the range of the number of creative tasks
+        info = C_TASKS_PROMPTS_GUIDANCE[task_id]# C_TASKS_PROMPTS_GUIDANCE is a dictionary of creative tasks
         env_obj = _meta_task_make("creative", *args, **kwargs)
         env_obj.specify_prompt(info["prompt"])
         env_obj.specify_guidance(info["guidance"])

@@ -12,7 +12,7 @@ import minedojo.sim.spaces as mdj_spaces
 from minedojo.sim import InventoryItem
 from minedojo.sim.mc_meta.mc import ALL_ITEMS
 
-MineDojoEnvList = [
+MineDojoEnvList = [ # a list of env names in minecraft
     "Plains", 
     "Forest",
 ]
@@ -25,7 +25,7 @@ class MineDojoEnv(gym.Env):
         img_size=(640, 480),
         rgb_only=False,
         ):
-        if name not in MineDojoEnvList:
+        if name not in MineDojoEnvList:# if name is not in the list, raise an error
             print(f'{name} not in env list. Aborted.')
             assert False
 
